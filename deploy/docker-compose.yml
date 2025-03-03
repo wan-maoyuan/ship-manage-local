@@ -1,0 +1,13 @@
+name: "ship-manage-local"
+
+services:
+  ship-management:
+    image: ship-manage-local:v0.0.1
+    container_name: ship-manage-local
+    restart: always
+    network_mode: bridge
+    ports:
+      - "8888:8888"
+    environment:
+      - LOG_LEVEL=info
+      - ADDR=:8888
