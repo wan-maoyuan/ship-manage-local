@@ -104,35 +104,76 @@ func (*PMSComponent) TableName() string {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//const (
-//	TableNamePMSJobOrder = "ship_manager.pms_job_order"
-//)
-//
-//// 每个月生产的维护保养的工单
-//type PMSJobOrder struct {
-//	ID                 int64     `gorm:"primaryKey;column:id" json:"id"`                        // ID
-//	VesselName         string    `gorm:"column:vessel_name" json:"vessel_name"`                 // 船名
-//	VesselIMO          string    `gorm:"column:vessel_imo" json:"vessel_imo"`                   // 船IMO号
-//	OrderID            string    `gorm:"column:order_id" json:"order_id"`                       // 任务ID
-//	Task               string    `gorm:"column:task" json:"task"`                               // 任务内容
-//	FirstCode          string    `gorm:"column:first_code" json:"first_code"`                   // 一大类类别编码
-//	SecondCode         string    `gorm:"column:second_code" json:"second_code"`                 // 二大类类别编码
-//	ThirdCode          string    `gorm:"column:third_code" json:"third_code"`                   // 三大类类别编码
-//	FourthCode         string    `gorm:"column:fourth_code" json:"fourth_code"`                 // 四大类类别编码
-//	Equipment          string    `gorm:"column:equipment" json:"equipment"`                     // 设备
-//	EquipmentComponent string    `gorm:"column:equipment_component" json:"equipment_component"` // 设备部件
-//	Remarks            string    `gorm:"column:remarks" json:"remarks"`                         // 备注
-//	PlannedStartTime   time.Time `gorm:"column:planned_start_time" json:"planned_start_time"`   // 任务计划开始时间
-//	CreateTime         time.Time `gorm:"column:create_time" json:"create_time"`                 // 创建时间
-//	Completed          bool      `gorm:"column:completed" json:"completed"`                     // 是否已经完成
-//	Deleted            bool      `gorm:"column:deleted" json:"-"`                               // 是否已经删除
-//}
-//
-//func (*PMSJobOrder) TableName() string {
-//	return TableNamePMSJobOrder
-//}
-//
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
+const (
+	TableNamePMSTask = "pms_task"
+)
+
+type PMSTask struct {
+	ID                       int64     `gorm:"primaryKey;index;column:id" json:"id"`                                // ID
+	VesselIMO                int64     `gorm:"column:vessel_imo" json:"vessel_imo"`                                 // 船舶 IMO 编号
+	VesselName               string    `gorm:"column:vessel_name" json:"vessel_name"`                               // 船舶的英文名称
+	CatLogID                 string    `gorm:"column:cat_log_id" json:"cat_log_id"`                                 // 一大类类别编码
+	CatLogDescription        string    `gorm:"column:cat_log_description" json:"cat_log_description"`               // 一大类类别描述
+	GroupID                  string    `gorm:"column:group_id" json:"group_id"`                                     // 二大类类别编码
+	GroupDescription         string    `gorm:"column:group_description" json:"group_description"`                   // 二大类类别描述
+	EquipmentID              string    `gorm:"column:equipment_id" json:"equipment_id"`                             // 三大类类别编码
+	EquipmentDescription     string    `gorm:"column:equipment_description" json:"equipment_description"`           // 三大类名称描述
+	ComponentID              string    `gorm:"column:component_id" json:"component_id"`                             // 四大类类别编码
+	ComponentDescription     string    `gorm:"column:component_description" json:"component_description"`           // 四大类名称描述
+	Task                     string    `gorm:"column:task" json:"task"`                                             // 任务内容
+	Description              string    `gorm:"column:description" json:"description"`                               // 任务描述
+	FullDescription          string    `gorm:"column:full_description" json:"full_description"`                     // 任务完整描述
+	OfficeRef                int       `gorm:"column:office_ref" json:"office_ref"`                                 // 标准运行小时数
+	MaintenanceIntervalHours int       `gorm:"column:maintenance_interval_hours" json:"maintenance_interval_hours"` // 根据运行小时数进行维护干预
+	MaintenanceIntervalDays  int       `gorm:"column:maintenance_interval_days" json:"maintenance_interval_days"`   // 根据运行天数进行维护干预
+	TotalRunningHours        int       `gorm:"column:total_running_hours" json:"total_running_hours"`               // 总的运行小时数
+	AvgDailyRunningHours     int       `gorm:"column:avg_daily_running_hours" json:"avg_daily_running_hours"`       // 日均运行小时数
+	Editor                   string    `gorm:"column:editor" json:"editor"`                                         // 编辑者
+	Source                   string    `gorm:"column:source" json:"source"`                                         // 数据来源
+	ModifyTime               time.Time `gorm:"column:modify_time" json:"modify_time"`                               // 修改时间
+	CreateTime               time.Time `gorm:"column:create_time" json:"create_time"`                               // 创建时间
+}
+
+func (*PMSTask) TableName() string {
+	return TableNamePMSTask
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const (
+	TableNamePMSWorkOrder = "pms_work_order"
+)
+
+type PMSWorkOrder struct {
+	ID                   int64     `gorm:"primaryKey;column:id" json:"id"`                            // ID
+	VesselIMO            int64     `gorm:"column:vessel_imo" json:"vessel_imo"`                       // 船舶 IMO 编号
+	VesselName           string    `gorm:"column:vessel_name" json:"vessel_name"`                     // 船舶的英文名称
+	CatLogID             string    `gorm:"column:cat_log_id" json:"cat_log_id"`                       // 一大类类别编码
+	CatLogDescription    string    `gorm:"column:cat_log_description" json:"cat_log_description"`     // 一大类类别描述
+	GroupID              string    `gorm:"column:group_id" json:"group_id"`                           // 二大类类别编码
+	GroupDescription     string    `gorm:"column:group_description" json:"group_description"`         // 二大类类别描述
+	EquipmentID          string    `gorm:"column:equipment_id" json:"equipment_id"`                   // 三大类类别编码
+	EquipmentDescription string    `gorm:"column:equipment_description" json:"equipment_description"` // 三大类名称描述
+	ComponentID          string    `gorm:"column:component_id" json:"component_id"`                   // 四大类类别编码
+	ComponentDescription string    `gorm:"column:component_description" json:"component_description"` // 四大类名称描述
+	TaskID               string    `gorm:"column:task_id" json:"task_id"`                             // 任务ID
+	Task                 string    `gorm:"column:task" json:"task"`                                   // 任务内容
+	StartDate            time.Time `gorm:"column:start_date" json:"start_date"`                       // 任务开始时间
+	EndDate              time.Time `gorm:"column:end_date" json:"end_date"`                           // 任务结束时间
+	Status               string    `gorm:"column:status" json:"status"`                               // 任务状态
+	Receiver             string    `gorm:"column:receiver" json:"receiver"`                           // 任务的接收者
+
+	Remarks          string    `gorm:"column:remarks" json:"remarks"`                       // 备注
+	PlannedStartTime time.Time `gorm:"column:planned_start_time" json:"planned_start_time"` // 任务计划开始时间
+	CreateTime       time.Time `gorm:"column:create_time" json:"create_time"`               // 创建时间
+	Completed        bool      `gorm:"column:completed" json:"completed"`                   // 是否已经完成
+}
+
+func (*PMSWorkOrder) TableName() string {
+	return TableNamePMSWorkOrder
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //const (
 //	TableNamePMSWorkDone = "ship_manager.pms_work_done"
@@ -414,34 +455,6 @@ func (*PMSComponent) TableName() string {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//const (
-//	TableNamePMSTaskTemplate = "ship_manager.pms_task_template"
-//)
-//
-//// 系统默认生成的维修保养工单清单模板
-//type PMSTaskTemplate struct {
-//	ID                       int64     `gorm:"primaryKey;autoIncrement;column:id" json:"id"`                        // ID
-//	FirstCode                string    `gorm:"column:first_code" json:"first_code"`                                 // 一大类类别编码
-//	SecondCode               string    `gorm:"column:second_code" json:"second_code"`                               // 二大类类别编码
-//	ThirdCode                string    `gorm:"column:third_code" json:"third_code"`                                 // 三大类类别编码
-//	FourthCode               string    `gorm:"column:fourth_code" json:"fourth_code"`                               // 四大类类别编码
-//	Description              string    `gorm:"column:description" json:"description"`                               // 名称描述
-//	Task                     string    `gorm:"column:task" json:"task"`                                             // 维修任务
-//	FullDescription          string    `gorm:"column:full_description" json:"full_description"`                     // 完成的设备描述
-//	OfficeRef                int       `gorm:"column:office_ref" json:"office_ref"`                                 // 标准运行小时数
-//	MaintenanceIntervalHours int       `gorm:"column:maintenance_interval_hours" json:"maintenance_interval_hours"` // 根据运行小时数进行维护干预
-//	MaintenanceIntervalDays  int       `gorm:"column:maintenance_interval_days" json:"maintenance_interval_days"`   // 根据运行天数进行维护干预
-//	TotalRunningHours        int       `gorm:"column:total_running_hours" json:"total_running_hours"`               // 总的运行小时数
-//	Setup                    bool      `gorm:"column:setup" json:"setup"`                                           // 是否启动
-//	AvgDailyRunningHours     int       `gorm:"column:avg_daily_running_hours" json:"avg_daily_running_hours"`       // 日均运行小时数
-//	Editor                   string    `gorm:"column:editor" json:"editor"`                                         // 编辑者
-//	Source                   string    `gorm:"column:source" json:"source"`                                         // 数据来源
-//	ModifyTime               time.Time `gorm:"column:modify_time" json:"modify_time"`                               // 修改时间
-//	CreateTime               time.Time `gorm:"column:create_time" json:"create_time"`                               // 创建时间
-//}
-//
-//func (*PMSTaskTemplate) TableName() string {
-//	return TableNamePMSTaskTemplate
-//}
+
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@ name: "ship-manage-local"
 
 services:
   ship-management:
-    image: ship-manage-local:v0.0.1
+    image: ship-manage-local:v0.0.3
     container_name: ship-manage-local
     restart: always
     network_mode: bridge

@@ -22,5 +22,6 @@ RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev && rm -rf /var/l
 
 # 在build阶段复制时区到
 COPY --from=build /go/release/dist/ship-manage-local    /ship-manage-local
+COPY --from=build /go/release/resources/db_files        /resources/db_files
 
 CMD [ "/ship-manage-local"]

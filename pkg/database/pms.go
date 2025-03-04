@@ -38,7 +38,10 @@ func newPMS(dir string) (*PMS, error) {
 		return nil, fmt.Errorf("open pms database file: %w", err)
 	}
 
-	pmsList := []any{&model.PMSCatLog{}, &model.PMSGroup{}, &model.PMSEquipment{}, &model.PMSComponent{}}
+	pmsList := []any{
+		&model.PMSCatLog{}, &model.PMSGroup{}, &model.PMSEquipment{}, &model.PMSComponent{},
+		&model.PMSTask{},
+	}
 
 	if err := db.AutoMigrate(pmsList...); err != nil {
 		return nil, fmt.Errorf("auto migrate pms catlog: %w", err)
